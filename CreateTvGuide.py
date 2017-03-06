@@ -2,11 +2,12 @@ import urllib
 from HTMLParser import HTMLParser
 from lxml import etree as et
 import AltName
-        
+
+import sys        
 
 def tempSiteData():
     global siteData
-    site = urllib.urlopen('file:///home/markwatney/personal/python/HomeTvControl/TvGuide.html')
+    site = urllib.urlopen('file://' + str(sys.argv[1]))
     return site.read()
 
 def updateSiteData():
