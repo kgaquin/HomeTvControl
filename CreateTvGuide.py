@@ -1,12 +1,12 @@
 import urllib
 from HTMLParser import HTMLParser
-import xml.etree.cElementTree as et
+from lxml import etree as et
 import AltName
         
 
 def tempSiteData():
     global siteData
-    site = urllib.urlopen('file:///home/markwatney/personal/python/TvGuide.html')
+    site = urllib.urlopen('file:///home/markwatney/personal/python/HomeTvControl/TvGuide.html')
     return site.read()
 
 def updateSiteData():
@@ -50,6 +50,6 @@ def refreshGuide():
     parser.feed(tempSiteData())
 
     tree = et.ElementTree(root)
-    tree.write("TvGuide.xml")
+    tree.write("TvGuide.xml", pretty_print=True)
 
 refreshGuide()
