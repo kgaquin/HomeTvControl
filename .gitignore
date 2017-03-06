@@ -1,3 +1,6 @@
 *.xml
 *.pyc
 rest.py
+*.csr
+*.key
+*.crt

@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 import web
+from web.wsgiserver import CherryPyWSGIServer as Cherry
 import xml.etree.ElementTree as ET
+
+Cherry.ssl_certificate = "HomeTvControl.crt"
+Cherry.ssl_private_key ="HomeTvControl.key"
 
 tree = ET.parse('TvGuide.xml')
 root = tree.getroot()
