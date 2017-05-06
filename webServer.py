@@ -1,47 +1,58 @@
 #!/usr/bin/env python
 import web
 from web.wsgiserver import CherryPyWSGIServer as Cherry
-import xml.etree.ElementTree as ET
+import commands as tv
 
-Cherry.ssl_certificate = "HomeTvControl.crt"
-Cherry.ssl_private_key ="HomeTvControl.key"
+Cherry.ssl_certificate = "domain.crt"
+Cherry.ssl_private_key ="domain.key"
 
-tree = ET.parse('TvGuide.xml')
-root = tree.getroot()
+
 
 urls = (
-    '/channel/number/(.*)', 'get_number',
-    '/channel/name/(.*)', 'get_name'
+    '/channel/number/(.*)', 'number',
+    '/channel/name/(.*)', 'name',
+    '/tv/on', 'on',
+    '/tv/off', 'off',
+    '/volume/increase', 'inc_volume',
+    '/volume/decrease', 'dec_volume',
+    '/volume/value/(.*)', 'volume',
+    '/volume/mute', 'mute'
 )
 
 app = web.application(urls, globals())
 
-class get_number:
-    def GET(self, number):
-        for channel in root:
-            for r in channel:
-                if r.tag == 'number' and r.text == number:
-                    print "Changing channel to", r.text
+class number:
+    def GET(self, n):
+        tv.channelNumber(n)
 
-class get_name:
-    def GET(self, name):
-        for channel in root:
-            for r in channel:
-                if r.tag == 'name' and r.text == name:
-                    print "here"
-                    #if 'HD' not in r.text:
-                    #    prev.text = getHD(name)
-                    print "Changing channel to", num
-                if r.tag == 'number':
-                    num = r.text
+class name:
+    def GET(self, n):
+        tv.channelName(n)
 
-def getHD(name):
-    for channel in root:
-        for r in channel:
-            if r.text == (name + "HD") or r.text == (name + " HD"):
-                return prev.text
-            prev = r
-    return name
+class on:
+    def GET(self):
+        tv.on()
+
+class off:
+    def GET(self):
+        tv.off()
+
+class inc_volume:
+    def GET(self):
+        tv.inc_volume()
+
+class dec_volume:
+    def GET(self):
+        tv.dec_volume()
+
+class volume:
+    def GET(self, vol):
+        tv.volume()
+
+class mute:
+    def GET(self):
+        tv.mute()
 
 if __name__ == "__main__":
     app.run()
+    print "here"
